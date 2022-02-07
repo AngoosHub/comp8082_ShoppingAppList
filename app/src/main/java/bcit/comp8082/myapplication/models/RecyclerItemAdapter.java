@@ -44,7 +44,7 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerItemAdapte
             public boolean onLongClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Delete Item")
-                        .setMessage("Are you sure to remove " + items.get(holder.getAdapterPosition()).getName() + " from the menu?")
+                        .setMessage("Are you sure to remove " + items.get(holder.getAdapterPosition()).getName() + " from the list?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
