@@ -16,6 +16,7 @@ import bcit.comp8082.myapplication.databinding.FragmentFirstBinding;
 
 public class FirstFragment extends Fragment {
 
+    // Another test commit
     private FragmentFirstBinding binding;
     private DBHelper db;
 
