@@ -6,10 +6,10 @@ public class Item {
     private int item_id;
     private String item_name;
     private String item_desc;
-    private float item_price;
+    private double item_price;
     private String item_img;
 
-    public Item (int item_id, String item_name, String item_desc, float item_price, String item_img) {
+    public Item (int item_id, String item_name, String item_desc, double item_price, String item_img) {
         this.item_id = item_id;
         this.item_name = item_name;
         this.item_desc = item_desc;
@@ -46,11 +46,11 @@ public class Item {
         this.item_desc = item_desc;
     }
 
-    public float getItem_price() {
+    public double getItem_price() {
         return item_price;
     }
 
-    public void setItem_price(float item_price) {
+    public void setItem_price(double item_price) {
         this.item_price = item_price;
     }
 

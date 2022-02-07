@@ -6,10 +6,10 @@ public class ItemsList {
     private int items_list_list_id;
     private int items_list_item_id;
     private int items_list_item_qty;
-    private float items_list_backup_price;
+    private double items_list_backup_price;
 
     public ItemsList (int items_list_id, int items_list_list_id, int items_list_item_id,
-                      int items_list_item_qty, float items_list_backup_price) {
+                      int items_list_item_qty, double items_list_backup_price) {
         this.items_list_id = items_list_id;
         this.items_list_list_id = items_list_list_id;
         this.items_list_item_id = items_list_item_id;
@@ -54,11 +54,11 @@ public class ItemsList {
         this.items_list_item_qty = items_list_item_qty;
     }
 
-    public float getItems_list_backup_price() {
+    public double getItems_list_backup_price() {
         return items_list_backup_price;
     }
 
-    public void setItems_list_backup_price(float items_list_backup_price) {
+    public void setItems_list_backup_price(double items_list_backup_price) {
         this.items_list_backup_price = items_list_backup_price;
     }
 

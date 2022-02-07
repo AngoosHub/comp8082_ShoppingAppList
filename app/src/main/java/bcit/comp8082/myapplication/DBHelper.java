@@ -15,9 +15,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "shoppinglistapp.db";
-    public static final String LIST_TABLE_NAME = "shoppinglist.db";
-    public static final String ITEM_TABLE_NAME = "itemlist.db";
-    public static final String ITEMS_LIST_TABLE_NAME = "itemslist.db";
+    public static final String LIST_TABLE_NAME = "shoppinglist";
+    public static final String ITEM_TABLE_NAME = "itemlist";
+    public static final String ITEMS_LIST_TABLE_NAME = "itemslist";
 
     // table variables
     public static class TableVars {
@@ -151,7 +151,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         new Item(Integer.parseInt(cursor.getString(0)),
                                 cursor.getString(1),
                                 cursor.getString(2),
-                                Float.parseFloat(cursor.getString(3)),
+                                Double.parseDouble(cursor.getString(3)),
                                 cursor.getString(4))
                 );
             } while (cursor.moveToNext());
@@ -172,7 +172,7 @@ public class DBHelper extends SQLiteOpenHelper {
                                 Integer.parseInt(cursor.getString(1)),
                                 Integer.parseInt(cursor.getString(2)),
                                 Integer.parseInt(cursor.getString(3)),
-                                Float.parseFloat(cursor.getString(4)))
+                                Double.parseDouble(cursor.getString(4)))
                 );
             } while (cursor.moveToNext());
         }
