@@ -1,4 +1,4 @@
-package bcit.comp8082.myapplication;
+package bcit.comp8082.myapplication.models;
 
 public class List {
 

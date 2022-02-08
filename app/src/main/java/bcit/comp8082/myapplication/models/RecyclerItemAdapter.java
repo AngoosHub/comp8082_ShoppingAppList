@@ -36,15 +36,15 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerItemAdapte
     @Override
     public void onBindViewHolder(@NonNull RecyclerItemAdapter.ViewHolder holder, int position) {
         Item item = items.get(position);
-        holder.name.setText(item.getName());
-        holder.price.setText(String.valueOf(item.getPrice()));
+        holder.name.setText(item.getItem_name());
+        holder.price.setText(String.valueOf(item.getItem_price()));
 
         holder.llRow.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Delete Item")
-                        .setMessage("Are you sure to remove " + items.get(holder.getAdapterPosition()).getName() + " from the list?")
+                        .setMessage("Are you sure to remove " + items.get(holder.getAdapterPosition()).getItem_name() + " from the list?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

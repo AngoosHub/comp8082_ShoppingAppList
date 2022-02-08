@@ -1,6 +1,7 @@
 package bcit.comp8082.myapplication;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,8 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import bcit.comp8082.myapplication.models.DBHelper;
 import bcit.comp8082.myapplication.models.Item;
-import bcit.comp8082.myapplication.models.ItemList;
+import bcit.comp8082.myapplication.models.ItemsList;
 import bcit.comp8082.myapplication.models.RecyclerItemAdapter;
 
 public class SavedItemList extends AppCompatActivity {
@@ -26,8 +28,10 @@ public class SavedItemList extends AppCompatActivity {
     TextView itemsText;
     RecyclerView recyclerView;
     RecyclerItemAdapter adapter;
+    DBHelper db;
 
-    ItemList items;
+    ItemsList items;
+    ArrayList <Item> item_arr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +41,14 @@ public class SavedItemList extends AppCompatActivity {
         itemsText = findViewById(R.id.item_list);
         recyclerView = findViewById(R.id.items_list);
 
-        items = new ItemList("Saved List", new ArrayList<Item>());
+//        items = new ItemsList("Saved List", new ArrayList<Item>());
 
-        adapter = new RecyclerItemAdapter(SavedItemList.this, items.getItems());
+        db = new DBHelper(getApplicationContext());
+//        getApplicationContext().deleteDatabase(DBHelper.DATABASE_NAME);
+        item_arr = db.getAllItem();
+
+        adapter = new RecyclerItemAdapter(SavedItemList.this, item_arr);
+
         setUpRecyclerView(adapter);
     }
 
@@ -65,12 +74,16 @@ public class SavedItemList extends AppCompatActivity {
         if (requestCode == REQUEST_ITEM_ADD && resultCode == RESULT_OK) {
             String itemName = data.getStringExtra("ITEMNAME");
             double itemPrice = data.getDoubleExtra("ITEMPRICE", -1);
-            ArrayList<String> tags = new ArrayList<String>();
-            Item item = new Item(itemName, itemPrice);
 
-            items.addItem(item);
+            Item item = new Item(1, itemName, "Desc" ,itemPrice, "image");
+            db.insertItem(item);
 
-            recyclerView.scrollToPosition(items.getSize());
+            item_arr.clear();
+            item_arr.addAll(db.getAllItem());
+
+            recyclerView.scrollToPosition(item_arr.size());
         }
     }
+
 }
+

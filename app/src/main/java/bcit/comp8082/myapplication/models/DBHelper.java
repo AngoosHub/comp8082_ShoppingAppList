@@ -1,4 +1,4 @@
-package bcit.comp8082.myapplication;
+package bcit.comp8082.myapplication.models;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+
 
 
 public class DBHelper extends SQLiteOpenHelper {
