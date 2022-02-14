@@ -10,9 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Comp8082_ShoppingAppList">
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddItemActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".SavedItemList"
             android:exported="true"
@@ -24,7 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

@@ -16,13 +16,19 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "shoppinglistapp.db";
+    public static final String USER_TABLE_NAME = "users";
     public static final String LIST_TABLE_NAME = "shoppinglist";
     public static final String ITEM_TABLE_NAME = "itemlist";
     public static final String ITEMS_LIST_TABLE_NAME = "itemslist";
 
     // table variables
     public static class TableVars {
+        public static final String USER_ID = "id";
+        public static final String USERNAME = "username";
+        public static final String PASSWORD = "password";
+
         public static final String LIST_ID = "list_id";
+        public static final String LIST_USER_ID = "user_id";
         public static final String LIST_NAME = "list_name";
         public static final String LIST_DESC = "list_desc";
         public static final String LIST_DATETIME = "list_datetime";
@@ -42,8 +48,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL("create Table " + USER_TABLE_NAME + " (" +
+                TableVars.USER_ID + " INTEGER primary key AUTOINCREMENT, " +
+                TableVars.USERNAME + " TEXT, " +
+                TableVars.PASSWORD + " TEXT)");
+
         db.execSQL("create Table " + LIST_TABLE_NAME + " (" +
                 TableVars.LIST_ID + " INTEGER primary key AUTOINCREMENT, " +
+                TableVars.LIST_USER_ID + " INTEGER, " +
                 TableVars.LIST_NAME + " TEXT, " +
                 TableVars.LIST_DESC + " TEXT, " +
                 TableVars.LIST_DATETIME + " INTEGER )");
@@ -80,6 +92,52 @@ public class DBHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
+    /**
+     * Verify User Login:
+     * Returns true if username and password correct, false if incorrect.
+     */
+    public Boolean verifyUserLogin(String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("Select * from " + USER_TABLE_NAME + " where " +
+                        TableVars.USERNAME + " = ? and " + TableVars.PASSWORD + " = ?",
+                new String[] {username, password});
+        return cursor.getCount() > 0;
+    }
+
+    /**
+     * Get User ID:
+     * Returns UserID from username and password, used in getAllLists for user's lists.
+     */
+    public int getUserID(String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("Select * from " + USER_TABLE_NAME + " where " +
+                        TableVars.USERNAME + " = ? and " + TableVars.PASSWORD + " = ?",
+                new String[] {username, password});
+        if (cursor.moveToFirst()) {
+            return cursor.getInt(0);
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * Register new user.
+     */
+    public Boolean insertUser(String username, String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TableVars.USERNAME, username);
+        contentValues.put(TableVars.PASSWORD, password);
+        long result = db.insert(USER_TABLE_NAME, null, contentValues);
+        db.close();
+        return result != -1;
+    }
+
+    public Boolean deleteUser(int user_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(USER_TABLE_NAME, TableVars.USER_ID + "=?",
+                new String[]{Integer.toString(user_id)}) > 0;
+    }
 
     public Boolean insertList(List list) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -94,6 +152,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return result != -1; // return true insert success
     }
 
+    public Boolean deleteList(int list_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(LIST_TABLE_NAME, TableVars.LIST_ID + "=?",
+                new String[]{Integer.toString(list_id)}) > 0;
+    }
+
     public Boolean insertItem(Item item) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -106,6 +170,12 @@ public class DBHelper extends SQLiteOpenHelper {
         long result = db.insert(ITEM_TABLE_NAME, null, contentValues);
         db.close();
         return result != -1;
+    }
+
+    public Boolean deleteItem(int item_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(ITEM_TABLE_NAME, TableVars.ITEM_ID + "=?",
+                new String[]{Integer.toString(item_id)}) > 0;
     }
 
 
@@ -123,18 +193,26 @@ public class DBHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
+    public Boolean deleteItemsList(int itemsList_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(ITEMS_LIST_TABLE_NAME, TableVars.ITEMS_LIST_ID + "=?",
+                new String[]{Integer.toString(itemsList_id)}) > 0;
+    }
 
-    public ArrayList<List> getAllList(){
+
+    public ArrayList<List> getAllList(int user_id){
         ArrayList<List> lists = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("Select * from " + LIST_TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("Select * from " + LIST_TABLE_NAME + " where " +
+                TableVars.LIST_USER_ID + " = ?", new String[] {String.valueOf(user_id)});
         if(cursor.moveToFirst()) {
             do {
                 lists.add(
                         new List(Integer.parseInt(cursor.getString(0)),
-                                cursor.getString(1),
+                                Integer.parseInt(cursor.getString(1)),
                                 cursor.getString(2),
-                                Integer.parseInt(cursor.getString(3)))
+                                cursor.getString(3),
+                                Integer.parseInt(cursor.getString(4)))
                 );
             } while (cursor.moveToNext());
         }
