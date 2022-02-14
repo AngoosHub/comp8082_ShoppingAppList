@@ -23,12 +23,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // table variables
     public static class TableVars {
-        public static final String USER_ID = "id";
+//        public static final String USER_ID = "id";
         public static final String USERNAME = "username";
         public static final String PASSWORD = "password";
 
         public static final String LIST_ID = "list_id";
-        public static final String LIST_USER_ID = "user_id";
+        public static final String LIST_USERNAME = "username";
         public static final String LIST_NAME = "list_name";
         public static final String LIST_DESC = "list_desc";
         public static final String LIST_DATETIME = "list_datetime";
@@ -49,13 +49,12 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create Table " + USER_TABLE_NAME + " (" +
-                TableVars.USER_ID + " INTEGER primary key AUTOINCREMENT, " +
-                TableVars.USERNAME + " TEXT, " +
+                TableVars.USERNAME + " TEXT primary key, " +
                 TableVars.PASSWORD + " TEXT)");
 
         db.execSQL("create Table " + LIST_TABLE_NAME + " (" +
                 TableVars.LIST_ID + " INTEGER primary key AUTOINCREMENT, " +
-                TableVars.LIST_USER_ID + " INTEGER, " +
+                TableVars.LIST_USERNAME + " TEXT, " +
                 TableVars.LIST_NAME + " TEXT, " +
                 TableVars.LIST_DESC + " TEXT, " +
                 TableVars.LIST_DATETIME + " INTEGER )");
@@ -104,22 +103,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor.getCount() > 0;
     }
 
-    /**
-     * Get User ID:
-     * Returns UserID from username and password, used in getAllLists for user's lists.
-     */
-    public int getUserID(String username, String password) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("Select * from " + USER_TABLE_NAME + " where " +
-                        TableVars.USERNAME + " = ? and " + TableVars.PASSWORD + " = ?",
-                new String[] {username, password});
-        if (cursor.moveToFirst()) {
-            return cursor.getInt(0);
-        } else {
-            return -1;
-        }
-    }
-
     public Boolean checkUsernameExists(String username) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("Select * from " + USER_TABLE_NAME + " where " +
@@ -141,10 +124,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public Boolean deleteUser(int user_id) {
+    public Boolean deleteUser(String username) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(USER_TABLE_NAME, TableVars.USER_ID + "=?",
-                new String[]{Integer.toString(user_id)}) > 0;
+        return db.delete(USER_TABLE_NAME, TableVars.USERNAME + "=?",
+                new String[]{username}) > 0;
     }
 
     public Boolean insertList(List list) {
@@ -208,11 +191,11 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<List> getAllList(int user_id){
+    public ArrayList<List> getAllList(String username){
         ArrayList<List> lists = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("Select * from " + LIST_TABLE_NAME + " where " +
-                TableVars.LIST_USER_ID + " = ?", new String[] {String.valueOf(user_id)});
+                TableVars.LIST_USERNAME + " = ?", new String[] {String.valueOf(username)});
         if(cursor.moveToFirst()) {
             do {
                 lists.add(

@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Button login;
     Button signup;
+    Button change_password;
     EditText username;
     EditText password;
     DBHelper db;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
         login = findViewById(R.id.button_login);
         signup = findViewById(R.id.button_signup);
+        change_password = findViewById(R.id.button_change_password);
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
         db = new DBHelper(getApplicationContext());
@@ -42,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
         login();
         signup();
+        change_password();
     }
 
 
@@ -62,9 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                 Boolean verify = db.verifyUserLogin(username_str, password_str);
 
                 if (verify) {
-                    String user_id = Integer.toString(db.getUserID(username_str, password_str));
                     Intent intent = new Intent(getApplicationContext(), SavedItemList.class);
-                    intent.putExtra("user_id", user_id);
                     intent.putExtra("username", username_str);
                     intent.putExtra("password", password_str);
                     startActivity(intent);
@@ -93,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (db.checkUsernameExists(username_str)) {
                     buildAlertDialogue("Signup Error",
-                            "Username already exists, please enter a different usrename.");
+                            "Username already exists, please enter a different username.");
                     return;
                 }
 
@@ -105,6 +106,40 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     buildAlertDialogue("Signup Error",
                             "Failed to insert user into database.");
+                }
+
+            }
+        });
+    }
+
+    public void change_password() {
+        change_password.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                String username_str = username.getText().toString();
+                String password_str = password.getText().toString();
+
+                if (username_str.isEmpty() || password_str.isEmpty()) {
+                    buildAlertDialogue("Change password Error",
+                            "Username and password field cannot be empty.");
+                    return;
+                }
+
+                if (!db.checkUsernameExists(username_str)) {
+                    buildAlertDialogue("Change password Error",
+                            "Username doesn't exists, please enter a valid username.");
+                    return;
+                }
+                Boolean result1 = db.deleteUser(username_str);
+                Boolean result2 = db.insertUser(username_str, password_str);
+
+                if (result1 && result2) {
+                    buildAlertDialogue("Change password Success",
+                            "User password has been successfully changed.");
+                } else {
+                    buildAlertDialogue("Change password Error",
+                            "Failed to change user password in database.");
                 }
 
             }
