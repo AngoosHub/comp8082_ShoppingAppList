@@ -120,6 +120,14 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public Boolean checkUsernameExists(String username) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("Select * from " + USER_TABLE_NAME + " where " +
+                        TableVars.USERNAME + " = ? ",
+                new String[] {username});
+        return cursor.getCount() > 0;
+    }
+
     /**
      * Register new user.
      */

@@ -20,10 +20,12 @@ import bcit.comp8082.myapplication.R;
 public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerItemAdapter.ViewHolder> {
     Context context;
     ArrayList<Item> items;
+    DBHelper db;
 
     public RecyclerItemAdapter(Context context, ArrayList<Item> items) {
         this.context = context;
         this.items = items;
+        this.db = new DBHelper(context);
     }
 
     @NonNull
@@ -48,6 +50,7 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerItemAdapte
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                db.deleteItem(items.get(holder.getAdapterPosition()).getItem_id());
                                 items.remove(holder.getAdapterPosition());
                                 notifyItemRemoved(holder.getAdapterPosition());
                             }

@@ -44,7 +44,6 @@ public class SavedItemList extends AppCompatActivity {
 //        items = new ItemsList("Saved List", new ArrayList<Item>());
 
         db = new DBHelper(getApplicationContext());
-//        getApplicationContext().deleteDatabase(DBHelper.DATABASE_NAME);
         item_arr = db.getAllItem();
 
         adapter = new RecyclerItemAdapter(SavedItemList.this, item_arr);

@@ -11,7 +11,13 @@
         android:theme="@style/Theme.Comp8082_ShoppingAppList">
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".AddItemActivity"
             android:exported="false"></activity>
@@ -20,11 +26,6 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Comp8082_ShoppingAppList.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
