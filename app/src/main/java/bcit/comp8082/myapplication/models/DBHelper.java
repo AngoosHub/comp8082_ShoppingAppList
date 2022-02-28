@@ -135,6 +135,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
 
         // contentValues.put(TableVars.LIST_ID, list.getList_id());
+        contentValues.put(TableVars.LIST_USERNAME, list.getUsername());
         contentValues.put(TableVars.LIST_NAME, list.getList_name());
         contentValues.put(TableVars.LIST_DESC, list.getList_desc());
         contentValues.put(TableVars.LIST_DATETIME, list.getList_datetime());
@@ -200,7 +201,7 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 lists.add(
                         new List(Integer.parseInt(cursor.getString(0)),
-                                Integer.parseInt(cursor.getString(1)),
+                                cursor.getString(1),
                                 cursor.getString(2),
                                 cursor.getString(3),
                                 Integer.parseInt(cursor.getString(4)))

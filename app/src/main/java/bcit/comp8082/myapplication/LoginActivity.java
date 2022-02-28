@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                 Boolean verify = db.verifyUserLogin(username_str, password_str);
 
                 if (verify) {
-                    Intent intent = new Intent(getApplicationContext(), SavedItemList.class);
+                    Intent intent = new Intent(getApplicationContext(), AllListsActivity.class);
                     intent.putExtra("username", username_str);
                     intent.putExtra("password", password_str);
                     startActivity(intent);

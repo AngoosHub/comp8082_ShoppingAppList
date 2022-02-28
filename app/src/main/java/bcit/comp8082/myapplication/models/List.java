@@ -1,16 +1,31 @@
 package bcit.comp8082.myapplication.models;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class List {
 
     private int list_id;
-    private int user_id;
+    private String username;
     private String list_name;
     private String list_desc;
     private int list_datetime;
 
-    public List (int list_id, int user_id, String list_name, String list_desc, int list_datetime) {
+    /** User method for creating new list.
+     */
+    public List (int list_id, String username, String list_name, String list_desc) {
         this.list_id = list_id;
-        this.user_id = user_id;
+        this.username = username;
+        this.list_name = list_name;
+        this.list_desc = list_desc;
+        this.list_datetime = (int) (new Date().getTime()/1000);;
+    }
+
+    /** Datebase method for creating list for recycler view.
+     */
+    public List (int list_id, String username, String list_name, String list_desc, int list_datetime) {
+        this.list_id = list_id;
+        this.username = username;
         this.list_name = list_name;
         this.list_desc = list_desc;
         this.list_datetime = list_datetime;
@@ -30,12 +45,12 @@ public class List {
         this.list_id = list_id;
     }
 
-    public int getUser_id(){
-        return user_id;
+    public String getUsername(){
+        return username;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setusername(String username) {
+        this.username = username;
     }
 
     public String getList_name() {
@@ -61,5 +76,9 @@ public class List {
         this.list_datetime = list_datetime;
     }
     
-
+    public String getList_datetime_as_string() {
+        String dateAsText = new SimpleDateFormat("yyyy-MM-dd")
+                .format(new Date(((long)list_datetime)*1000L));
+        return dateAsText;
+    }
 }
