@@ -1,7 +1,6 @@
 package bcit.comp8082.myapplication;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,50 +18,55 @@ import bcit.comp8082.myapplication.models.Item;
 import bcit.comp8082.myapplication.models.ItemsList;
 import bcit.comp8082.myapplication.models.RecyclerItemAdapter;
 
-public class SavedItemList extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity {
 
     static final int REQUEST_ITEM_ADD = 1;
 
     Button add;
     Button done;
-    TextView itemsText;
     RecyclerView recyclerView;
     RecyclerItemAdapter adapter;
     DBHelper db;
 
-    ItemsList items;
-    ArrayList <Item> item_arr;
+    int list_id;
+    Intent intent;
+
+    TextView title;
+
+    ArrayList<Item> item_arr;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.saved_item_list);
         add = findViewById(R.id.add_item);
-        itemsText = findViewById(R.id.item_list);
         recyclerView = findViewById(R.id.items_list);
-
-//        items = new ItemsList("Saved List", new ArrayList<Item>());
+        title = findViewById(R.id.title_text);
 
         db = new DBHelper(getApplicationContext());
         item_arr = db.getAllItem();
+        intent = getIntent();
+        list_id = intent.getIntExtra("LIST_ID", -1);
+        Log.e("list-id", String.valueOf(list_id));
+        Log.e("list", db.getItemsList(list_id).toString());
 
-        adapter = new RecyclerItemAdapter(SavedItemList.this, this,  item_arr);
+        title.setText(intent.getStringExtra("LIST_NAME"));
+
+        adapter = new RecyclerItemAdapter(ListActivity.this, this, item_arr);
 
         setUpRecyclerView(adapter);
-    }
 
-    public void addItem(View v) {
-        Intent intent = new Intent(this, AddItemActivity.class);
-        startActivityForResult(intent, REQUEST_ITEM_ADD);
     }
-
     public void setUpRecyclerView(RecyclerItemAdapter adapter) {
         Log.d("adapter: ", "adding " + adapter.toString());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
-    public void done(View v){
+    public void addItem(View v) {
+        Intent intent = new Intent(this, SavedItemList.class);
+        startActivityForResult(intent, REQUEST_ITEM_ADD);
+    }
+    public void done(View v) {
         finish();
     }
 
@@ -71,18 +75,11 @@ public class SavedItemList extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_ITEM_ADD && resultCode == RESULT_OK) {
-            String itemName = data.getStringExtra("ITEMNAME");
-            double itemPrice = data.getDoubleExtra("ITEMPRICE", -1);
+            int item_id = data.getIntExtra("ITEM_ID", -1);
+            Item i = db.getAllItem().get(item_id - 1);
 
-            Item item = new Item(1, itemName, "Desc" ,itemPrice, "image");
-            db.insertItem(item);
-
-            item_arr.clear();
-            item_arr.addAll(db.getAllItem());
-
+            item_arr.add(i);
             recyclerView.scrollToPosition(item_arr.size());
         }
     }
-
 }
-

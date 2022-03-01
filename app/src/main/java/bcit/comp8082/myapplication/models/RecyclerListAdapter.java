@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import bcit.comp8082.myapplication.ListActivity;
 import bcit.comp8082.myapplication.R;
 import bcit.comp8082.myapplication.SavedItemList;
 
@@ -50,9 +52,9 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
         holder.llRow.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), SavedItemList.class);
-
-                intent.putExtra("username", list.getList_id());
+                Intent intent = new Intent(v.getContext(), ListActivity.class);
+                intent.putExtra("LIST_ID", list.getList_id());
+                intent.putExtra("LIST_NAME", list.getList_name());
                 intent.putExtra("username", username);
                 intent.putExtra("password", password);
                 v.getContext().startActivity(intent);

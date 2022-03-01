@@ -1,31 +1,38 @@
 package bcit.comp8082.myapplication.models;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.ArrayList;
 
+import bcit.comp8082.myapplication.ListActivity;
 import bcit.comp8082.myapplication.R;
 
 public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerItemAdapter.ViewHolder> {
     Context context;
     ArrayList<Item> items;
     DBHelper db;
+    Activity activity;
 
-    public RecyclerItemAdapter(Context context, ArrayList<Item> items) {
+    public RecyclerItemAdapter(Context context, Activity activity, ArrayList<Item> items) {
         this.context = context;
         this.items = items;
         this.db = new DBHelper(context);
+        this.activity = activity;
     }
 
     @NonNull
@@ -40,6 +47,15 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerItemAdapte
         Item item = items.get(position);
         holder.name.setText(item.getItem_name());
         holder.price.setText(String.valueOf(item.getItem_price()));
+
+        holder.llRow.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("ITEM_ID", items.get(holder.getAdapterPosition()).getItem_id());
+                activity.setResult(Activity.RESULT_OK, intent);
+                activity.finish();
+            }
+        });
 
         holder.llRow.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
