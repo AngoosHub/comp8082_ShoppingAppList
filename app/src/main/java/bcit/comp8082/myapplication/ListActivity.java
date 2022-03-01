@@ -118,7 +118,7 @@ public class ListActivity extends AppCompatActivity {
                 else {
                     ItemsList itemsList = new ItemsList(0, list_id , item.getItem_id(), 1);
                     db.insertItemsList(itemsList);
-                    item_arr.add(item);
+//                    item_arr.add(item);
                 }
             }
             retrieve_items_list();
