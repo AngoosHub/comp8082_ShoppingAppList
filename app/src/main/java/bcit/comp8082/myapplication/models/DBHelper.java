@@ -44,7 +44,6 @@ public class DBHelper extends SQLiteOpenHelper {
         public static final String ITEMS_LIST_LIST_ID = "items_list_list_id";
         public static final String ITEMS_LIST_ITEM_ID = "items_list_item_id";
         public static final String ITEMS_LIST_ITEM_QTY = "items_list_item_qty";
-        public static final String ITEMS_LIST_BACKUP_PRICE = "items_list_backup_price";
     }
 
     @Override
@@ -68,11 +67,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 TableVars.ITEM_IMG + " TEXT )");
 
         db.execSQL("create Table " + ITEMS_LIST_TABLE_NAME + " (" +
-                TableVars.ITEMS_LIST_ID + "listitems_id INTEGER primary key AUTOINCREMENT, " +
+                TableVars.ITEMS_LIST_ID + " INTEGER primary key AUTOINCREMENT, " +
                 TableVars.ITEMS_LIST_LIST_ID + " INTEGER, " +
                 TableVars.ITEMS_LIST_ITEM_ID + " INTEGER, " +
-                TableVars.ITEMS_LIST_ITEM_QTY + " INTEGER, " +
-                TableVars.ITEMS_LIST_BACKUP_PRICE + " REAL )");
+                TableVars.ITEMS_LIST_ITEM_QTY + " INTEGER)");
     }
 
     public DBHelper(@Nullable Context context) {
@@ -177,10 +175,9 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
 
         // contentValues.put(TableVars.ITEM_ID, item.getItem_id());
-        contentValues.put(TableVars.ITEMS_LIST_LIST_ID, itemsList.getItems_list_id());
+        contentValues.put(TableVars.ITEMS_LIST_LIST_ID, itemsList.getItems_list_list_id());
         contentValues.put(TableVars.ITEMS_LIST_ITEM_ID, itemsList.getItems_list_item_id());
         contentValues.put(TableVars.ITEMS_LIST_ITEM_QTY, itemsList.getItems_list_item_qty());
-        contentValues.put(TableVars.ITEMS_LIST_BACKUP_PRICE, itemsList.getItems_list_backup_price());
         long result = db.insert(ITEMS_LIST_TABLE_NAME, null, contentValues);
         db.close();
         return result != -1;
@@ -192,6 +189,19 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{Integer.toString(itemsList_id)}) > 0;
     }
 
+    public Boolean updateItemsList(ItemsList itemsList) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        // contentValues.put(TableVars.ITEM_ID, item.getItem_id());
+        contentValues.put(TableVars.ITEMS_LIST_LIST_ID, itemsList.getItems_list_id());
+        contentValues.put(TableVars.ITEMS_LIST_ITEM_ID, itemsList.getItems_list_item_id());
+        contentValues.put(TableVars.ITEMS_LIST_ITEM_QTY, itemsList.getItems_list_item_qty());
+        long result = db.update(ITEMS_LIST_TABLE_NAME, contentValues, TableVars.ITEMS_LIST_ID + " = ?",
+                new String[]{String.valueOf(itemsList.getItems_list_id())});
+        db.close();
+        return result != -1;
+    }
 
     public ArrayList<List> getAllList(String username){
         ArrayList<List> lists = new ArrayList<>();
@@ -231,6 +241,28 @@ public class DBHelper extends SQLiteOpenHelper {
         return items;
     };
 
+    public Item getItem(int item_id){
+        ArrayList<Item> items = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("Select * from " + ITEM_TABLE_NAME + " where " +
+                TableVars.ITEM_ID + " = ?", new String[] {String.valueOf(item_id)});
+        if(cursor.moveToFirst()) {
+            do {
+                items.add(
+                        new Item(Integer.parseInt(cursor.getString(0)),
+                                cursor.getString(1),
+                                cursor.getString(2),
+                                Double.parseDouble(cursor.getString(3)),
+                                cursor.getString(4))
+                );
+            } while (cursor.moveToNext());
+        }
+        if (items.size() > 0) {
+            return items.get(0);
+        }
+        else return null; // no items found
+        // When calling check if return is null.
+    }
 
     public ArrayList<ItemsList> getItemsList(int list_id){
         ArrayList<ItemsList> items_lists = new ArrayList<>();
@@ -243,8 +275,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         new ItemsList(Integer.parseInt(cursor.getString(0)),
                                 Integer.parseInt(cursor.getString(1)),
                                 Integer.parseInt(cursor.getString(2)),
-                                Integer.parseInt(cursor.getString(3)),
-                                Double.parseDouble(cursor.getString(4)))
+                                Integer.parseInt(cursor.getString(3)))
                 );
             } while (cursor.moveToNext());
         }
