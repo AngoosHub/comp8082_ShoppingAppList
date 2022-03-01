@@ -25,11 +25,11 @@ public class SavedItemList extends AppCompatActivity {
 
     Button add;
     Button done;
-    TextView itemsText;
     RecyclerView recyclerView;
     RecyclerItemAdapter adapter;
     DBHelper db;
 
+    TextView PH;
     ItemsList items;
     ArrayList <Item> item_arr;
 
@@ -38,17 +38,18 @@ public class SavedItemList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.saved_item_list);
         add = findViewById(R.id.add_item);
-        itemsText = findViewById(R.id.item_list);
         recyclerView = findViewById(R.id.items_list);
 
 //        items = new ItemsList("Saved List", new ArrayList<Item>());
 
         db = new DBHelper(getApplicationContext());
         item_arr = db.getAllItem();
+        PH = findViewById(R.id.empty_item_list);
 
         adapter = new RecyclerItemAdapter(SavedItemList.this, this,  item_arr);
 
         setUpRecyclerView(adapter);
+        updateDisplay();
     }
 
     public void addItem(View v) {
@@ -61,7 +62,13 @@ public class SavedItemList extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
+    public void updateDisplay() {
+        if (item_arr.size() != 0){
+            PH.setText("");
+        } else {
+            PH.setText("No item");
+        }
+    }
     public void done(View v){
         finish();
     }
@@ -80,6 +87,7 @@ public class SavedItemList extends AppCompatActivity {
             item_arr.clear();
             item_arr.addAll(db.getAllItem());
 
+            updateDisplay();
             recyclerView.scrollToPosition(item_arr.size());
         }
     }

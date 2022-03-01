@@ -34,6 +34,7 @@ public class ListActivity extends AppCompatActivity {
     Intent intent;
 
     TextView title;
+    TextView PH;
 
     ArrayList<Item> item_arr;
     ArrayList<ItemsList> itemslist_list;
@@ -44,6 +45,7 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.saved_item_list);
         add = findViewById(R.id.add_item);
         recyclerView = findViewById(R.id.items_list);
+        PH = findViewById(R.id.empty_item_list);
         title = findViewById(R.id.title_text);
         item_arr = new ArrayList<Item>();
         db = new DBHelper(getApplicationContext());
@@ -60,6 +62,7 @@ public class ListActivity extends AppCompatActivity {
 
         setUpRecyclerView(adapter);
 
+        updateDisplay();
     }
 
     private void retrieve_items_list() {
@@ -72,6 +75,7 @@ public class ListActivity extends AppCompatActivity {
                 item_arr.add(item);
             }
         }
+
     }
 
     public void setUpRecyclerView(RecyclerItemListAdapter adapter) {
@@ -82,6 +86,13 @@ public class ListActivity extends AppCompatActivity {
     public void addItem(View v) {
         Intent intent = new Intent(this, SavedItemList.class);
         startActivityForResult(intent, REQUEST_ITEM_ADD);
+    }
+    public void updateDisplay(){
+        if (item_arr.size() != 0){
+            PH.setText("");
+        } else {
+            PH.setText("No item");
+        }
     }
     public void done(View v) {
         finish();
@@ -111,6 +122,7 @@ public class ListActivity extends AppCompatActivity {
                 }
             }
             retrieve_items_list();
+            updateDisplay();
             recyclerView.scrollToPosition(item_arr.size());
         }
     }
