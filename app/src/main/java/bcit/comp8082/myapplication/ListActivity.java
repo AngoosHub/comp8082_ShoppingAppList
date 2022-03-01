@@ -18,6 +18,7 @@ import bcit.comp8082.myapplication.models.Item;
 import bcit.comp8082.myapplication.models.ItemsList;
 import bcit.comp8082.myapplication.models.List;
 import bcit.comp8082.myapplication.models.RecyclerItemAdapter;
+import bcit.comp8082.myapplication.models.RecyclerItemListAdapter;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -26,7 +27,7 @@ public class ListActivity extends AppCompatActivity {
     Button add;
     Button done;
     RecyclerView recyclerView;
-    RecyclerItemAdapter adapter;
+    RecyclerItemListAdapter adapter;
     DBHelper db;
 
     int list_id;
@@ -55,7 +56,7 @@ public class ListActivity extends AppCompatActivity {
         title.setText(intent.getStringExtra("LIST_NAME"));
         retrieve_items_list();
 
-        adapter = new RecyclerItemAdapter(ListActivity.this, this, item_arr);
+        adapter = new RecyclerItemListAdapter(ListActivity.this, this, item_arr, list_id);
 
         setUpRecyclerView(adapter);
 
@@ -73,7 +74,7 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
-    public void setUpRecyclerView(RecyclerItemAdapter adapter) {
+    public void setUpRecyclerView(RecyclerItemListAdapter adapter) {
         Log.d("adapter: ", "adding " + adapter.toString());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
