@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -50,6 +52,7 @@ public class RecyclerItemListAdapter extends RecyclerView.Adapter<RecyclerItemLi
         holder.name.setText(item.getItem_name());
         holder.price.setText(String.valueOf(item.getItem_price()));
         holder.quantity.setText(String.valueOf(items.get(position).getItems_list_item_qty()));
+        holder.image.setImageBitmap(BitmapFactory.decodeByteArray(item.getItem_img(), 0, item.getItem_img().length));
 
         holder.llRow.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -95,6 +98,7 @@ public class RecyclerItemListAdapter extends RecyclerView.Adapter<RecyclerItemLi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, price, quantity;
+        ImageView image;
         LinearLayout llRow;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,6 +106,7 @@ public class RecyclerItemListAdapter extends RecyclerView.Adapter<RecyclerItemLi
             price = itemView.findViewById(R.id.tvItemListPrice);
             quantity = itemView.findViewById(R.id.tvItemListQty);
             llRow = itemView.findViewById(R.id.item_list_container);
+            image = itemView.findViewById(R.id.imageListView);
         }
     }
 }

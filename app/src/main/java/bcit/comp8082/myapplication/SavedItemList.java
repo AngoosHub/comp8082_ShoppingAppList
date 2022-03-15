@@ -1,11 +1,14 @@
 package bcit.comp8082.myapplication;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,12 +83,16 @@ public class SavedItemList extends AppCompatActivity {
         if (requestCode == REQUEST_ITEM_ADD && resultCode == RESULT_OK) {
             String itemName = data.getStringExtra("ITEMNAME");
             double itemPrice = data.getDoubleExtra("ITEMPRICE", -1);
+            byte[] imageBytes = data.getByteArrayExtra("IMAGE");
+            Log.e("length", String.valueOf(imageBytes.length));
 
-            Item item = new Item(1, itemName, "Desc" ,itemPrice, "image");
+            Item item = new Item(1, itemName, "Desc" ,itemPrice, imageBytes);
             db.insertItem(item);
 
             item_arr.clear();
             item_arr.addAll(db.getAllItem());
+
+            Log.e("length1", String.valueOf(item_arr.get(0).getItem_img().length));
 
             updateDisplay();
             recyclerView.scrollToPosition(item_arr.size());

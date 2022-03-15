@@ -1,6 +1,8 @@
 package bcit.comp8082.myapplication;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,9 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 public class AddItemActivity extends AppCompatActivity {
     Button confirm;
     Button cancel;
@@ -17,7 +22,7 @@ public class AddItemActivity extends AppCompatActivity {
     EditText price;
     ImageView image;
 
-    int SELECT_PiCTURE = 101;
+    int SELECT_PICTURE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class AddItemActivity extends AppCompatActivity {
         i.setType("image/");
         i.setAction(Intent.ACTION_GET_CONTENT);
 
-        startActivityForResult(Intent.createChooser(i, "Select Item Image"), SELECT_PiCTURE);
+        startActivityForResult(Intent.createChooser(i, "Select Item Image"), SELECT_PICTURE);
     }
 
     public void cancel(final View v){
@@ -49,9 +54,20 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void confirm(final View v) {
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageInByte = baos.toByteArray();
         Intent intent = new Intent();
         intent.putExtra("ITEMPRICE", Double.parseDouble(price.getText().toString()));
         intent.putExtra("ITEMNAME", itemName.getText().toString());
+        intent.putExtra("IMAGE", imageInByte);
+
+        try {
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         setResult(RESULT_OK, intent);
         finish();
@@ -60,7 +76,7 @@ public class AddItemActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if(requestCode == SELECT_PiCTURE) {
+            if(requestCode == SELECT_PICTURE) {
                 Uri imageUri = data.getData();
                 if(null != imageUri) {
                     image.setImageURI(imageUri);

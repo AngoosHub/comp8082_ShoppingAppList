@@ -10,9 +10,9 @@ public class Item {
     private String item_name;
     private String item_desc;
     private double item_price;
-    private String item_img;
+    private byte[] item_img;
 
-    public Item (int item_id, String item_name, String item_desc, double item_price, String item_img) {
+    public Item (int item_id, String item_name, String item_desc, double item_price, byte[] item_img) {
         this.item_id = item_id;
         this.item_name = item_name;
         this.item_desc = item_desc;
@@ -57,11 +57,11 @@ public class Item {
         this.item_price = item_price;
     }
 
-    public String getItem_img() {
+    public byte[] getItem_img() {
         return item_img;
     }
 
-    public void setItem_img(String item_img) {
+    public void setItem_img(byte[] item_img) {
         this.item_img = item_img;
     }
 
