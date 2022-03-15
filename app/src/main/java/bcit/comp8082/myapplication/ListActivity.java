@@ -120,6 +120,15 @@ public class ListActivity extends AppCompatActivity {
             }
             retrieve_items_list();
             updateDisplay();
+            int num = itemslist_list.indexOf(item_list);
+            int idx = 0;
+            for (ItemsList temp_item : itemslist_list) {
+                if (temp_item.getItems_list_item_id() == new_item_id) {
+                    adapter.notifyItemChanged(idx);
+                    break;
+                }
+                idx++;
+            }
             recyclerView.scrollToPosition(itemslist_list.size());
         }
     }
