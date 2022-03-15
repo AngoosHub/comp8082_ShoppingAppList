@@ -107,19 +107,16 @@ public class ListActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_ITEM_ADD && resultCode == RESULT_OK) {
             int new_item_id = data.getIntExtra("ITEM_ID", -1);
-            Item item = db.getItem(new_item_id);
-            if (item != null) {
-                ItemsList item_list = itemslist_list.stream().filter(list ->
-                        list.getItems_list_item_id() == item.getItem_id()).findFirst().orElse(null);
+            ItemsList item_list = itemslist_list.stream().filter(list ->
+                    list.getItems_list_item_id() == new_item_id).findFirst().orElse(null);
 
-                if (item_list != null) {
-                    item_list.setItems_list_item_qty(item_list.getItems_list_item_qty() + 1);
-                    db.updateItemsList(item_list);
-                }
-                else {
-                    ItemsList itemsList = new ItemsList(0, list_id , item.getItem_id(), 1);
-                    db.insertItemsList(itemsList);
-                }
+            if (item_list != null) {
+                item_list.setItems_list_item_qty(item_list.getItems_list_item_qty() + 1);
+                db.updateItemsList(item_list);
+            }
+            else {
+                ItemsList itemsList = new ItemsList(0, list_id , new_item_id, 1);
+                db.insertItemsList(itemsList);
             }
             retrieve_items_list();
             updateDisplay();

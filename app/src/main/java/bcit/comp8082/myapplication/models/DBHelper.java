@@ -194,7 +194,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
 
         // contentValues.put(TableVars.ITEM_ID, item.getItem_id());
-        contentValues.put(TableVars.ITEMS_LIST_LIST_ID, itemsList.getItems_list_id());
+        contentValues.put(TableVars.ITEMS_LIST_LIST_ID, itemsList.getItems_list_list_id());
         contentValues.put(TableVars.ITEMS_LIST_ITEM_ID, itemsList.getItems_list_item_id());
         contentValues.put(TableVars.ITEMS_LIST_ITEM_QTY, itemsList.getItems_list_item_qty());
         long result = db.update(ITEMS_LIST_TABLE_NAME, contentValues, TableVars.ITEMS_LIST_ID + " = ?",
