@@ -10,6 +10,7 @@ public class ItemsList {
     private int items_list_list_id;
     private int items_list_item_id;
     private int items_list_item_qty;
+    private Item item; // used only in RecyclerItemListAdapter to deal with update issue
 
     public ItemsList (int items_list_id, int items_list_list_id, int items_list_item_id,
                       int items_list_item_qty) {
@@ -23,7 +24,13 @@ public class ItemsList {
 
     }
 
+    public void addItem (Item item) {
+        this.item = item; // used only in RecyclerItemListAdapter to deal with update issue
+    }
 
+    public Item getItem () {
+        return this.item; // used only in RecyclerItemListAdapter to deal with update issue
+    }
 
     public int getItems_list_id(){
         return items_list_id;
@@ -58,44 +65,3 @@ public class ItemsList {
 
 }
 
-
-//
-//public class ItemList {
-//    private String name;
-//    private ArrayList<Item> items;
-//    private String LastUpdate;
-//
-//    public ItemList(String name, ArrayList<Item> items) {
-//        this.name = name;
-//        this.items = items;
-//    }
-//    public ArrayList<Item> getItems() {
-//        return items;
-//    }
-//
-//    public void setItems(ArrayList<Item> items) {
-//        this.items = items;
-//    }
-//    public void addItem(Item item){
-//        this.items.add(item);
-//    }
-//    public int getSize(){
-//        return this.items.size();
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getLastUpdate() {
-//        return LastUpdate;
-//    }
-//
-//    public void setLastUpdate(String lastUpdate) {
-//        LastUpdate = lastUpdate;
-//    }
-//}

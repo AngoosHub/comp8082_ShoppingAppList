@@ -48,6 +48,7 @@ public class ListActivity extends AppCompatActivity {
         PH = findViewById(R.id.empty_item_list);
         title = findViewById(R.id.title_text);
         item_arr = new ArrayList<Item>();
+        itemslist_list = new ArrayList<>();
         db = new DBHelper(getApplicationContext());
 
         intent = getIntent();
@@ -58,7 +59,7 @@ public class ListActivity extends AppCompatActivity {
         title.setText(intent.getStringExtra("LIST_NAME"));
         retrieve_items_list();
 
-        adapter = new RecyclerItemListAdapter(ListActivity.this, this, item_arr, list_id);
+        adapter = new RecyclerItemListAdapter(ListActivity.this, this, itemslist_list, list_id);
 
         setUpRecyclerView(adapter);
 
@@ -66,16 +67,16 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void retrieve_items_list() {
-        itemslist_list = db.getItemsList(list_id);
-        item_arr.clear();
-        for (ItemsList itemslist : itemslist_list) {
+        ArrayList<ItemsList> temp_list = db.getItemsList(list_id);
+        itemslist_list.clear();
+        for (ItemsList itemslist : temp_list) {
             int item_id = itemslist.getItems_list_item_id();
             Item item = db.getItem(item_id);
             if (item != null) {
-                item_arr.add(item);
+                itemslist.addItem(item);
+                itemslist_list.add(itemslist);
             }
         }
-
     }
 
     public void setUpRecyclerView(RecyclerItemListAdapter adapter) {
@@ -88,7 +89,7 @@ public class ListActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_ITEM_ADD);
     }
     public void updateDisplay(){
-        if (item_arr.size() != 0){
+        if (itemslist_list.size() != 0){
             PH.setText("");
         } else {
             PH.setText("No item");
@@ -104,8 +105,6 @@ public class ListActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_ITEM_ADD && resultCode == RESULT_OK) {
             int new_item_id = data.getIntExtra("ITEM_ID", -1);
-//            Item i = db.getAllItem().get(item_id - 1);
-//            item_arr.add(i);
             Item item = db.getItem(new_item_id);
             if (item != null) {
                 ItemsList item_list = itemslist_list.stream().filter(list ->
@@ -118,12 +117,11 @@ public class ListActivity extends AppCompatActivity {
                 else {
                     ItemsList itemsList = new ItemsList(0, list_id , item.getItem_id(), 1);
                     db.insertItemsList(itemsList);
-//                    item_arr.add(item);
                 }
             }
             retrieve_items_list();
             updateDisplay();
-            recyclerView.scrollToPosition(item_arr.size());
+            recyclerView.scrollToPosition(itemslist_list.size());
         }
     }
 }

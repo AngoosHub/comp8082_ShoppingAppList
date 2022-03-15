@@ -24,12 +24,12 @@ import bcit.comp8082.myapplication.R;
 
 public class RecyclerItemListAdapter extends RecyclerView.Adapter<RecyclerItemListAdapter.ViewHolder> {
     Context context;
-    ArrayList<Item> items;
+    ArrayList<ItemsList> items;
     DBHelper db;
     Activity activity;
     int db_list_id;
 
-    public RecyclerItemListAdapter(Context context, Activity activity, ArrayList<Item> items, int db_list_id) {
+    public RecyclerItemListAdapter(Context context, Activity activity, ArrayList<ItemsList> items, int db_list_id) {
         this.context = context;
         this.items = items;
         this.db = new DBHelper(context);
@@ -46,14 +46,14 @@ public class RecyclerItemListAdapter extends RecyclerView.Adapter<RecyclerItemLi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerItemListAdapter.ViewHolder holder, int position) {
-        Item item = items.get(position);
+        Item item = items.get(position).getItem();
         holder.name.setText(item.getItem_name());
         holder.price.setText(String.valueOf(item.getItem_price()));
 
         holder.llRow.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("ITEM_ID", items.get(holder.getAdapterPosition()).getItem_id());
+                intent.putExtra("ITEM_ID", items.get(holder.getAdapterPosition()).getItem().getItem_id());
                 activity.setResult(Activity.RESULT_OK, intent);
                 activity.finish();
             }
@@ -64,11 +64,11 @@ public class RecyclerItemListAdapter extends RecyclerView.Adapter<RecyclerItemLi
             public boolean onLongClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Delete Item")
-                        .setMessage("Are you sure to remove " + items.get(holder.getAdapterPosition()).getItem_name() + " from the list?")
+                        .setMessage("Are you sure to remove " + items.get(holder.getAdapterPosition()).getItem().getItem_name() + " from the list?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                db.deleteItemsList(items.get(holder.getAdapterPosition()).getItem_id());
+                                db.deleteItemsList(items.get(holder.getAdapterPosition()).getItems_list_id());
                                 items.remove(holder.getAdapterPosition());
                                 notifyItemRemoved(holder.getAdapterPosition());
 
