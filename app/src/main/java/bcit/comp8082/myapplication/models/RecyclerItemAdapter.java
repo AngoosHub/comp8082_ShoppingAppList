@@ -51,7 +51,11 @@ public class RecyclerItemAdapter extends RecyclerView.Adapter<RecyclerItemAdapte
         holder.name.setText(item.getItem_name());
         holder.price.setText(String.valueOf(item.getItem_price()));
         Log.e("length2", String.valueOf(item.getItem_img().length));
-        holder.image.setImageBitmap(BitmapFactory.decodeByteArray(item.getItem_img(), 0, item.getItem_img().length));
+        if (item.getItem_img().length == 0) {
+            holder.image.setVisibility(View.GONE);
+        } else {
+            holder.image.setImageBitmap(BitmapFactory.decodeByteArray(item.getItem_img(), 0, item.getItem_img().length));
+        }
 
         holder.llRow.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {

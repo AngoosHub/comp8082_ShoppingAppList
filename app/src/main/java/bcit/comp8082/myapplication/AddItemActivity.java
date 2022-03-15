@@ -53,21 +53,30 @@ public class AddItemActivity extends AppCompatActivity {
         finish();
     }
 
-    public void confirm(final View v) {
+    public byte[] convertImage(){
         Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageInByte = baos.toByteArray();
-        Intent intent = new Intent();
-        intent.putExtra("ITEMPRICE", Double.parseDouble(price.getText().toString()));
-        intent.putExtra("ITEMNAME", itemName.getText().toString());
-        intent.putExtra("IMAGE", imageInByte);
 
         try {
             baos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return baos.toByteArray();
+    }
+
+    public void confirm(final View v) {
+        Intent intent = new Intent();
+        intent.putExtra("ITEMPRICE", Double.parseDouble(price.getText().toString()));
+        intent.putExtra("ITEMNAME", itemName.getText().toString());
+        byte[] imageInByte = {};
+        try {
+            imageInByte = convertImage();
+        } catch (Exception e) {
+
+        }
+        intent.putExtra("IMAGE", imageInByte);
 
         setResult(RESULT_OK, intent);
         finish();
