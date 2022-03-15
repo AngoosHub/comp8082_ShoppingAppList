@@ -40,7 +40,7 @@ public class RecyclerItemListAdapter extends RecyclerView.Adapter<RecyclerItemLi
     @NonNull
     @Override
     public RecyclerItemListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false);
         return new ViewHolder(v);
     }
 
@@ -49,6 +49,7 @@ public class RecyclerItemListAdapter extends RecyclerView.Adapter<RecyclerItemLi
         Item item = items.get(position).getItem();
         holder.name.setText(item.getItem_name());
         holder.price.setText(String.valueOf(item.getItem_price()));
+        holder.quantity.setText(String.valueOf(items.get(position).getItems_list_item_qty()));
 
         holder.llRow.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -93,13 +94,14 @@ public class RecyclerItemListAdapter extends RecyclerView.Adapter<RecyclerItemLi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name, price;
+        TextView name, price, quantity;
         LinearLayout llRow;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.tvItemName);
-            price = itemView.findViewById(R.id.tvItemPrice);
-            llRow = itemView.findViewById(R.id.item_container);
+            name = itemView.findViewById(R.id.tvItemListName);
+            price = itemView.findViewById(R.id.tvItemListPrice);
+            quantity = itemView.findViewById(R.id.tvItemListQty);
+            llRow = itemView.findViewById(R.id.item_list_container);
         }
     }
 }

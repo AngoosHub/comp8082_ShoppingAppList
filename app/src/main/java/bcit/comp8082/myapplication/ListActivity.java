@@ -36,7 +36,6 @@ public class ListActivity extends AppCompatActivity {
     TextView title;
     TextView PH;
 
-    ArrayList<Item> item_arr;
     ArrayList<ItemsList> itemslist_list;
 
     @Override
@@ -47,7 +46,6 @@ public class ListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.items_list);
         PH = findViewById(R.id.empty_item_list);
         title = findViewById(R.id.title_text);
-        item_arr = new ArrayList<Item>();
         itemslist_list = new ArrayList<>();
         db = new DBHelper(getApplicationContext());
 
@@ -90,7 +88,11 @@ public class ListActivity extends AppCompatActivity {
     }
     public void updateDisplay(){
         if (itemslist_list.size() != 0){
-            PH.setText("");
+            int total = 0;
+            for (ItemsList itemslist : itemslist_list) {
+                total += (itemslist.getItem().getItem_price() * itemslist.getItems_list_item_qty());
+            }
+            PH.setText("Total Price: $" + total);
         } else {
             PH.setText("No item");
         }
