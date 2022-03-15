@@ -1,10 +1,12 @@
 package bcit.comp8082.myapplication;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +15,9 @@ public class AddItemActivity extends AppCompatActivity {
     Button cancel;
     EditText itemName;
     EditText price;
+    ImageView image;
+
+    int SELECT_PiCTURE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,21 @@ public class AddItemActivity extends AppCompatActivity {
         cancel = findViewById(R.id.item_cancel_btn);
         itemName = findViewById(R.id.item_name_input);
         price = findViewById(R.id.item_price_input);
+        image = findViewById(R.id.itemImage);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectImage();
+            }
+        });
+    }
+    public void selectImage() {
+        Intent i = new Intent();
+        i.setType("image/");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+
+        startActivityForResult(Intent.createChooser(i, "Select Item Image"), SELECT_PiCTURE);
     }
 
     public void cancel(final View v){
@@ -32,7 +52,20 @@ public class AddItemActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.putExtra("ITEMPRICE", Double.parseDouble(price.getText().toString()));
         intent.putExtra("ITEMNAME", itemName.getText().toString());
+
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if(requestCode == SELECT_PiCTURE) {
+                Uri imageUri = data.getData();
+                if(null != imageUri) {
+                    image.setImageURI(imageUri);
+                }
+            }
+        }
     }
 }
