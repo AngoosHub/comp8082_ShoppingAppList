@@ -56,6 +56,7 @@ public class AddListActivity extends AppCompatActivity {
         intent.putExtra("list_name", listName.getText().toString());
         intent.putExtra("list_desc", desc.getText().toString());
         setResult(RESULT_OK, intent);
+        updateLabel();
         finish();
     }
 
@@ -91,7 +92,6 @@ public class AddListActivity extends AppCompatActivity {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             myCalendar.set(Calendar.MINUTE, minute);
-            updateLabel();
         }
     } ;
     public void setDate (View view) {
