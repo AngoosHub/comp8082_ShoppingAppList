@@ -8,11 +8,13 @@
         <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/activity_login.xml" value="0.25885416666666666" />
         <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/activity_main.xml" value="0.25885416666666666" />
         <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/add_item.xml" value="0.2346014492753623" />
+        <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/content_main.xml" value="0.25885416666666666" />
         <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/fragment_first.xml" value="0.25885416666666666" />
         <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/fragment_second.xml" value="0.25885416666666666" />
         <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/item.xml" value="0.33" />
+        <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/item_list.xml" value="0.25885416666666666" />
         <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/list.xml" value="0.1281661600810537" />
-        <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/saved_item_list.xml" value="0.19202898550724637" />
+        <entry key="..\:/Android Studio/comp8082_ShoppingAppList/app/src/main/res/layout/saved_item_list.xml" value="0.33" />
       </map>
     </option>
   </component>
