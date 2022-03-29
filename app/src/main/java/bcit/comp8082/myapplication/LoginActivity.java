@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         db = new DBHelper(getApplicationContext());
 
         // Comment to stop deleting database
-        //getApplicationContext().deleteDatabase(DBHelper.DATABASE_NAME);
+//        getApplicationContext().deleteDatabase(DBHelper.DATABASE_NAME);
 
         login();
         signup();
