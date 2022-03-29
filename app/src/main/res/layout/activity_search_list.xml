@@ -7,6 +7,20 @@
     tools:context=".SearchListActivity">
 
     <TextView
+        android:id="@+id/title_text"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:textColor="@color/black"
+        android:text="Search"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="fill_parent"
+        android:background="@color/green" />
+
+    <TextView
         android:id="@+id/tvFromDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
