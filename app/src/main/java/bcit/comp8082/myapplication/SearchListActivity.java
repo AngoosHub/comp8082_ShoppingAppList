@@ -26,6 +26,7 @@ import java.util.Locale;
 public class SearchListActivity extends AppCompatActivity {
     Button search;
     Button back;
+    Button reset;
     private EditText fromDateDisplay;
     private EditText toDateDisplay;
     private static DateFormat dateAsText = new SimpleDateFormat("yyyy-MM-dd");
@@ -141,6 +142,12 @@ public class SearchListActivity extends AppCompatActivity {
                 back(v);
             }
         });
+        reset = findViewById(R.id.resetBtn);
+        reset.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                reset(v);
+            }
+        });
         try {
             Calendar calendar = Calendar.getInstance();
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -161,12 +168,20 @@ public class SearchListActivity extends AppCompatActivity {
         finish();
     }
 
+    public void reset(View v) {
+        Intent intent = new Intent();
+        intent.putExtra("RESET", true);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
     public void search_lists(View v) {
         Intent intent = new Intent();
         EditText from = (EditText) findViewById(R.id.etFromDateTime);
         EditText to = (EditText) findViewById(R.id.etToDateTime);
         String frDate = from.getText().toString();
         String toDate = to.getText().toString();
+        intent.putExtra("RESET", false);
         intent.putExtra("FROMDATE", frDate);
         intent.putExtra("TODATE", toDate);
         setResult(RESULT_OK, intent);

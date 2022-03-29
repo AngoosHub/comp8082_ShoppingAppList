@@ -26,6 +26,7 @@ public class AllListsActivity extends AppCompatActivity {
 
     static final int REQUEST_LIST_ADD = 1;
     static final int REQUEST_LIST_SEARCH = 2;
+    static final int REQUEST_RESET = 3;
     private static DateFormat dateAsText = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     Button add;
@@ -37,6 +38,7 @@ public class AllListsActivity extends AppCompatActivity {
     String username;
     String password;
     ArrayList<List> list_arr;
+    TextView noListTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,8 @@ public class AllListsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
-
+        noListTv = findViewById(R.id.noListTv);
+        noListTv.setVisibility(View.GONE);
         add = findViewById(R.id.add_list);
         add.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -115,6 +118,16 @@ public class AllListsActivity extends AppCompatActivity {
         }
 
         if(requestCode == REQUEST_LIST_SEARCH && resultCode == RESULT_OK) {
+            boolean reset = data.getBooleanExtra("RESET", false);
+            if(reset == true) {
+                list_arr.clear();
+                ArrayList<List> db_arr = db.getAllList(username);
+                list_arr.addAll(db_arr);
+                recyclerView.setVisibility(View.VISIBLE);
+                noListTv.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+                return;
+            }
             DateFormat format = dateAsText;
             String fromDate = (String) data.getStringExtra("FROMDATE");
             String toDate = (String) data.getStringExtra("TODATE");
@@ -128,8 +141,15 @@ public class AllListsActivity extends AppCompatActivity {
 
             list_arr.clear();
             ArrayList<List> db_arr = db.getListsByDate(username, fromDate, toDate);
-            list_arr.addAll(db_arr);
-            adapter.notifyDataSetChanged();
+            if(!db_arr.isEmpty()) {
+                list_arr.addAll(db_arr);
+                adapter.notifyDataSetChanged();
+            } else {
+                adapter.notifyDataSetChanged();
+                recyclerView.setVisibility(View.GONE);
+                noListTv.setText("No Lists Found");
+                noListTv.setVisibility(View.VISIBLE);
+            }
         }
     }
 
