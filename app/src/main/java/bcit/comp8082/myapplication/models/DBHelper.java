@@ -222,6 +222,25 @@ public class DBHelper extends SQLiteOpenHelper {
         return lists;
     };
 
+    public ArrayList<List> getListsByDate(String username, String fromDate, String toDate) {
+        ArrayList<List> lists = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("Select * from " + LIST_TABLE_NAME + " where " +
+                TableVars.LIST_USERNAME + " = ?" + " and " + TableVars.LIST_DATETIME + " between "
+                + "?" + " and " + "?", new String[] {String.valueOf(username),fromDate,toDate});
+        if(cursor.moveToFirst()) {
+            do {
+                lists.add(
+                        new List(Integer.parseInt(cursor.getString(0)),
+                                cursor.getString(1),
+                                cursor.getString(2),
+                                cursor.getString(3),
+                                Integer.parseInt(cursor.getString(4)))
+                );
+            } while (cursor.moveToNext());
+        }
+        return lists;
+    }
 
     public ArrayList<Item> getAllItem(){
         ArrayList<Item> items = new ArrayList<>();

@@ -10,8 +10,8 @@
         android:id="@+id/add_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="73dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="56dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:text="Add List"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,13 +21,22 @@
         android:id="@+id/list_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="81dp"
-        android:layout_marginEnd="81dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="56dp"
         android:backgroundTint="@android:color/holo_blue_dark"
-        android:layout_marginBottom="63dp"
         android:text="Done"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/list_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        android:text="Search"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/list_done"
         app:layout_constraintStart_toEndOf="@+id/add_list" />
 
     <TextView
@@ -57,5 +66,7 @@
         app:layout_constraintVertical_bias="0.0"
 
         />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
