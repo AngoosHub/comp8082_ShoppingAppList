@@ -118,13 +118,13 @@ public class AllListsActivity extends AppCompatActivity {
         }
 
         if(requestCode == REQUEST_LIST_SEARCH && resultCode == RESULT_OK) {
+            recyclerView.setVisibility(View.VISIBLE);
+            noListTv.setVisibility(View.GONE);
             boolean reset = data.getBooleanExtra("RESET", false);
             if(reset == true) {
                 list_arr.clear();
                 ArrayList<List> db_arr = db.getAllList(username);
                 list_arr.addAll(db_arr);
-                recyclerView.setVisibility(View.VISIBLE);
-                noListTv.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
                 return;
             }
