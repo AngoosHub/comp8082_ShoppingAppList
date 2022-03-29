@@ -10,27 +10,25 @@
         android:id="@+id/add_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="73dp"
-        android:layout_marginBottom="60dp"
-        android:onClick="addItem"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@android:color/holo_blue_dark"
+        android:onClick="addItem"
         android:text="Add item"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/items_list" />
 
     <Button
         android:id="@+id/item_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="81dp"
-        android:layout_marginEnd="81dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="75dp"
         android:backgroundTint="@android:color/holo_blue_dark"
-        android:layout_marginBottom="63dp"
         android:onClick="done"
         android:text="Done"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/add_item" />
+        app:layout_constraintTop_toBottomOf="@+id/items_list" />
 
     <Button
         android:id="@+id/share_btn"
@@ -46,40 +44,38 @@
 
     <TextView
         android:id="@+id/title_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
         android:textColor="@color/black"
-        android:textSize="10pt"
-        android:layout_marginTop="24dp"
-        android:text="Saved Items"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="All Items"
+        android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="fill_parent"
+        android:background="@color/green" />
 
     <TextView
         android:id="@+id/empty_item_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="10dp"
         android:text="No item"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/title_text"
+        tools:layout_editor_absoluteX="50dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="350dp"
-        android:layout_height="400dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="1dp"
         android:id="@+id/items_list"
-        app:layout_constraintBottom_toTopOf="@+id/add_item"
+        android:layout_width="fill_parent"
+        android:layout_height="550dp"
+        android:layout_marginTop="10dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/empty_item_list"
-        app:layout_constraintVertical_bias="0.0"
 
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/empty_item_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
