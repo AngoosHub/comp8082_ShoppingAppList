@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import bcit.comp8082.myapplication.models.DBHelper;
 import bcit.comp8082.myapplication.models.List;
@@ -60,6 +61,7 @@ public class AllListsActivity extends AppCompatActivity {
 
         adapter = new RecyclerListAdapter(AllListsActivity.this, list_arr, username, password);
 
+        Objects.requireNonNull(getSupportActionBar()).hide();
         setUpRecyclerView(adapter);
     }
 

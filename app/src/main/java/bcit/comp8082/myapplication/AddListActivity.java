@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class AddListActivity extends AppCompatActivity {
@@ -45,6 +46,8 @@ public class AddListActivity extends AppCompatActivity {
         listName = findViewById(R.id.list_name_input);
         desc = findViewById(R.id.list_desc_input);
         tvDate = findViewById(R.id.list_date_result);
+
+        Objects.requireNonNull(getSupportActionBar()).hide();
     }
 
     public void cancel(final View v){

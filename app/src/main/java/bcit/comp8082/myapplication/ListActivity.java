@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import bcit.comp8082.myapplication.models.DBHelper;
 import bcit.comp8082.myapplication.models.Item;
@@ -60,7 +61,7 @@ public class ListActivity extends AppCompatActivity {
         retrieve_items_list();
 
         adapter = new RecyclerItemListAdapter(ListActivity.this, this, itemslist_list, list_id);
-
+        Objects.requireNonNull(getSupportActionBar()).hide();
         setUpRecyclerView(adapter);
 
         updateDisplay();

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 public class AddItemActivity extends AppCompatActivity {
     Button confirm;
@@ -33,6 +34,8 @@ public class AddItemActivity extends AppCompatActivity {
         itemName = findViewById(R.id.item_name_input);
         price = findViewById(R.id.item_price_input);
         image = findViewById(R.id.itemImage);
+
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         image.setOnClickListener(new View.OnClickListener() {
             @Override
