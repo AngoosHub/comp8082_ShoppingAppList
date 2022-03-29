@@ -46,8 +46,6 @@
         android:id="@+id/lists_recyclerview"
         android:layout_height="600dp"
         android:layout_width="fill_parent"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_text"
 
