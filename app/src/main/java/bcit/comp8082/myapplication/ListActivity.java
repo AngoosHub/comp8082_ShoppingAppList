@@ -26,6 +26,7 @@ public class ListActivity extends AppCompatActivity {
 
     Button add;
     Button done;
+    Button share;
     RecyclerView recyclerView;
     RecyclerItemListAdapter adapter;
     DBHelper db;
@@ -46,6 +47,7 @@ public class ListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.items_list);
         PH = findViewById(R.id.empty_item_list);
         title = findViewById(R.id.title_text);
+        share = findViewById(R.id.share_btn);
         itemslist_list = new ArrayList<>();
         db = new DBHelper(getApplicationContext());
 
@@ -62,6 +64,7 @@ public class ListActivity extends AppCompatActivity {
         setUpRecyclerView(adapter);
 
         updateDisplay();
+        share_btn();
     }
 
     private void retrieve_items_list() {
@@ -97,6 +100,33 @@ public class ListActivity extends AppCompatActivity {
             PH.setText("No item");
         }
     }
+
+    public void share_btn() {
+        share.setVisibility(View.VISIBLE);
+        share.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String list_title = title.getText().toString();
+                StringBuilder shoppinglist = new StringBuilder(title.getText().toString() + ":");
+                for (ItemsList itemslist : itemslist_list) {
+                    Item item = itemslist.getItem();
+                    if (item != null) {
+                        String item_info = "\n - ";
+                        item_info += itemslist.getItems_list_item_qty() + " " + item.getItem_name();
+                        shoppinglist.append(item_info);
+                    }
+                }
+
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shoppinglist.toString());
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+            }
+        });
+    }
+
     public void done(View v) {
         finish();
     }
