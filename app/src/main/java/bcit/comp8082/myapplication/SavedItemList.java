@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import bcit.comp8082.myapplication.models.DBHelper;
 import bcit.comp8082.myapplication.models.Item;
@@ -50,7 +51,7 @@ public class SavedItemList extends AppCompatActivity {
         PH = findViewById(R.id.empty_item_list);
 
         adapter = new RecyclerItemAdapter(SavedItemList.this, this,  item_arr);
-
+//        Objects.requireNonNull(getSupportActionBar()).hide();
         setUpRecyclerView(adapter);
         updateDisplay();
     }

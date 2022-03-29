@@ -11,10 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:onClick="addItem"
         android:text="Add item"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/items_list" />
 
@@ -22,11 +24,13 @@
         android:id="@+id/item_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="75dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:onClick="done"
         android:text="Done"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/items_list" />
 
@@ -34,13 +38,15 @@
         android:id="@+id/share_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="5dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:text="Share"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/items_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
     <TextView
         android:id="@+id/title_text"
@@ -60,22 +66,23 @@
         android:id="@+id/empty_item_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:text="No item"
-        app:layout_constraintTop_toBottomOf="@+id/title_text"
-        tools:layout_editor_absoluteX="50dp" />
+        app:layout_constraintBottom_toTopOf="@+id/items_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/items_list"
         android:layout_width="fill_parent"
         android:layout_height="550dp"
-        android:layout_marginTop="10dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
 
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/empty_item_list" />
+        app:layout_constraintTop_toBottomOf="@+id/share_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

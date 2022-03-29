@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import bcit.comp8082.myapplication.models.DBHelper;
 import bcit.comp8082.myapplication.models.List;
@@ -76,6 +77,7 @@ public class AllListsActivity extends AppCompatActivity {
 
         adapter = new RecyclerListAdapter(AllListsActivity.this, list_arr, username, password);
 
+        Objects.requireNonNull(getSupportActionBar()).hide();
         setUpRecyclerView(adapter);
     }
 
