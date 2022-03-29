@@ -54,7 +54,8 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public byte[] convertImage(){
-        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        Bitmap bitmap_temp = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        Bitmap bitmap = scaleBitmap(bitmap_temp);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
@@ -64,6 +65,33 @@ public class AddItemActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return baos.toByteArray();
+    }
+
+    private Bitmap scaleBitmap(Bitmap bm) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+
+        int maxWidth = 64;
+        int maxHeight = 64;
+
+        if (width > height) {
+            // landscape
+            float ratio = (float) width / maxWidth;
+            width = maxWidth;
+            height = (int)(height / ratio);
+        } else if (height > width) {
+            // portrait
+            float ratio = (float) height / maxHeight;
+            height = maxHeight;
+            width = (int)(width / ratio);
+        } else {
+            // square
+            height = maxHeight;
+            width = maxWidth;
+        }
+
+        bm = Bitmap.createScaledBitmap(bm, width, height, true);
+        return bm;
     }
 
     public void confirm(final View v) {
