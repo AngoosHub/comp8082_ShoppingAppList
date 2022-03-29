@@ -51,7 +51,7 @@ public class SavedItemList extends AppCompatActivity {
         PH = findViewById(R.id.empty_item_list);
 
         adapter = new RecyclerItemAdapter(SavedItemList.this, this,  item_arr);
-        Objects.requireNonNull(getSupportActionBar()).hide();
+//        Objects.requireNonNull(getSupportActionBar()).hide();
         setUpRecyclerView(adapter);
         updateDisplay();
     }
