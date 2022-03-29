@@ -11,11 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Objects;
 
 import bcit.comp8082.myapplication.models.DBHelper;
 import bcit.comp8082.myapplication.models.List;
@@ -25,20 +22,16 @@ import bcit.comp8082.myapplication.models.RecyclerListAdapter;
 public class AllListsActivity extends AppCompatActivity {
 
     static final int REQUEST_LIST_ADD = 1;
-    static final int REQUEST_LIST_SEARCH = 2;
-    static final int REQUEST_RESET = 3;
-    private static DateFormat dateAsText = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     Button add;
     Button done;
-    Button search;
     RecyclerView recyclerView;
     RecyclerListAdapter adapter;
     DBHelper db;
     String username;
     String password;
+
     ArrayList<List> list_arr;
-    TextView noListTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +41,7 @@ public class AllListsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
-        noListTv = findViewById(R.id.noListTv);
-        noListTv.setVisibility(View.GONE);
+
         add = findViewById(R.id.add_list);
         add.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -64,29 +56,18 @@ public class AllListsActivity extends AppCompatActivity {
             }
         });
 
-        search = findViewById(R.id.list_search);
-        search.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                searchLists(v);
-            }
-        });
-
         db = new DBHelper(getApplicationContext());
         list_arr = db.getAllList(username);
 
         adapter = new RecyclerListAdapter(AllListsActivity.this, list_arr, username, password);
 
+        Objects.requireNonNull(getSupportActionBar()).hide();
         setUpRecyclerView(adapter);
     }
 
     public void addList(View v) {
         Intent intent = new Intent(this, AddListActivity.class);
         startActivityForResult(intent, REQUEST_LIST_ADD);
-    }
-
-    public void searchLists(View v) {
-        Intent intent = new Intent(this, SearchListActivity.class);
-        startActivityForResult(intent, REQUEST_LIST_SEARCH);
     }
 
     public void setUpRecyclerView(RecyclerListAdapter adapter) {
@@ -115,41 +96,6 @@ public class AllListsActivity extends AppCompatActivity {
             list_arr.addAll(db_arr);
             int arr_size = list_arr.size();
             recyclerView.scrollToPosition(arr_size);
-        }
-
-        if(requestCode == REQUEST_LIST_SEARCH && resultCode == RESULT_OK) {
-            recyclerView.setVisibility(View.VISIBLE);
-            noListTv.setVisibility(View.GONE);
-            boolean reset = data.getBooleanExtra("RESET", false);
-            if(reset == true) {
-                list_arr.clear();
-                ArrayList<List> db_arr = db.getAllList(username);
-                list_arr.addAll(db_arr);
-                adapter.notifyDataSetChanged();
-                return;
-            }
-            DateFormat format = dateAsText;
-            String fromDate = (String) data.getStringExtra("FROMDATE");
-            String toDate = (String) data.getStringExtra("TODATE");
-            try {
-                int fromDateInt = (int) (format.parse(fromDate).getTime()/1000);
-                //add 86399 to include the entire day (makes searches for a single day work properly)
-                int toDateInt = (int) (format.parse(toDate).getTime()/1000) + 86399;
-                fromDate = String.valueOf(fromDateInt);
-                toDate = String.valueOf(toDateInt);
-            } catch(Exception e) {e.printStackTrace();}
-
-            list_arr.clear();
-            ArrayList<List> db_arr = db.getListsByDate(username, fromDate, toDate);
-            if(!db_arr.isEmpty()) {
-                list_arr.addAll(db_arr);
-                adapter.notifyDataSetChanged();
-            } else {
-                adapter.notifyDataSetChanged();
-                recyclerView.setVisibility(View.GONE);
-                noListTv.setText("No Lists Found");
-                noListTv.setVisibility(View.VISIBLE);
-            }
         }
     }
 

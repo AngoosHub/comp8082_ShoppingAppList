@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import bcit.comp8082.myapplication.models.DBHelper;
 import bcit.comp8082.myapplication.models.Item;
 import bcit.comp8082.myapplication.models.RecyclerItemAdapter;
@@ -38,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
         db = new DBHelper(getApplicationContext());
+
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         // Comment to stop deleting database
 //        getApplicationContext().deleteDatabase(DBHelper.DATABASE_NAME);

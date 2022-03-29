@@ -10,35 +10,27 @@
         android:id="@+id/add_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="3dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:text="Add List"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lists_recyclerview" />
 
     <Button
         android:id="@+id/list_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="3dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:text="Done"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/list_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:text="Search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/list_done"
-        app:layout_constraintHorizontal_bias="0.464"
-        app:layout_constraintStart_toEndOf="@+id/add_list" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lists_recyclerview" />
 
     <TextView
         android:id="@+id/title_text"
@@ -56,27 +48,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lists_recyclerview"
-        android:layout_width="fill_parent"
         android:layout_height="600dp"
-        android:layout_marginTop="4dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:layout_width="fill_parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text"
 
-        app:layout_constraintTop_toBottomOf="@+id/title_text" />
-
-    <TextView
-        android:id="@+id/noListTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#cc0a0a"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.349" />
+        tools:layout_editor_absoluteX="61dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
